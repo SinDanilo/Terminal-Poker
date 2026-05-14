@@ -9,6 +9,7 @@ class Deck:
 
 
     def shuffle(self):
+        
         random.shuffle(self.deck)
         self.counter = 0
 
@@ -17,4 +18,4 @@ class Deck:
         for num in range(n):
             hand.append(self.deck[self.counter])
             self.counter += 1
-        return tuple(hand)
+        return list(hand)
