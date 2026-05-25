@@ -2,12 +2,7 @@ from Card import Card
 from Deck import Deck
 from Player import Player
 
-deck = Deck()
-playerCount = 2
-players = []
-game_state = ""
-pot = 0
-table = []
+
 
 class Game:
     def __init__(self, playerCount=2):
@@ -29,12 +24,12 @@ class Game:
             self.printCards(i.hand)
 
     def start_round(self):
-        deck.shuffle()
+        self.deck.shuffle()
         self.game_state = "preflop"
         self.pot = 0
         self.active_players = self.playerCount
         for player in self.players:
-            player.hand = deck.dealCards(2)
+            player.hand = self.deck.dealCards(2)
             printCards(player.hand)
 
         self.start_betting()
@@ -99,13 +94,13 @@ class Game:
             return
         
         if(self.game_state == "preflop"):
-            self.table.extend(deck.dealCards(3))
+            self.table.extend(self.deck.dealCards(3))
             self.game_state = "flop"
         elif(self.game_state == "flop"):
-            self.table.extend(deck.dealCards(1))
+            self.table.extend(self.deck.dealCards(1))
             self.game_state = "turn"
         elif(self.game_state == "turn"):
-            self.table.extend(deck.dealCards(1))
+            self.table.extend(self.deck.dealCards(1))
             self.game_state = 'river'
         
         for i in self.table:
@@ -117,13 +112,16 @@ class Game:
     def evaluate_winner(self):
         self.game_state = "end"
         print("Reached ENDING")
-        self.table.extend(deck.dealCards(5-len(table)))
+        self.table.extend(self.deck.dealCards(5-len(self.table)))
 
 
         
 
 def main():
     game = Game()
+    c = Card('J', '♣')
+    print(c.dRank)
+    print(c.dSuit)
     game.start_round()
     
 def printCards(a):
