@@ -6,7 +6,6 @@ from Player import Player
 
 class Game:
     def __init__(self, playerCount=2):
-        
         self.deck = Deck()
         self.playerCount = playerCount
         self.game_state = ""
