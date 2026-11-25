@@ -26,7 +26,7 @@ void Deck::shuffle() {
     counter = 0;
 }
 
-std::vector<Card> Deck::dealCards(int n) {
+void Deck::dealCards(int n, std::vector<Card>& v) {
     std::vector<Card> hand;
 
     for (int i = 0; i < n; i++) {
@@ -36,6 +36,7 @@ std::vector<Card> Deck::dealCards(int n) {
         hand.push_back(deck[counter]);
         counter++;
     }
-
-    return hand;
+    v.insert(v.end(), hand.begin(), hand.end());
+    return;
 }
+

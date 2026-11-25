@@ -14,7 +14,7 @@ public:
     Deck();
 
     void shuffle();
-    std::vector<Card> dealCards(int n = 1);
+    void dealCards(int n = 1, std::vector<Card>& v);
 };
 
 #endif

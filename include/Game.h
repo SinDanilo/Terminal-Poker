@@ -32,6 +32,8 @@ public:
     void startHand();
 
     void startBetting();
+
+    void evaluateWinner();
 };
 
 #endif
