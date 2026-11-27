@@ -22,6 +22,7 @@ private:
     Deck deck;
     int bigBlind = 10;
     int smallBlind = 5;
+    int dealerPos;
     std::vector<Player> players;
     std::vector<Card> table;
     GameState gameState;
@@ -34,6 +35,8 @@ public:
     void startBetting();
 
     void evaluateWinner();
+
+    void Draw(std::vector<Player>& players, std::vector<Card>& table, int currPlayer, int turn);
 };
 
 #endif

@@ -1,8 +1,9 @@
-#include "include/Game.h"
+#include "Server/include/Game.h"
 
 Game::Game(int playerCount){
     this->playerCount = playerCount;
     this->activePlayers = playerCount;
+    this->dealerPos = -1;
     this->deck = Deck();
     for(int i = 0; i < playerCount; i++){
         this->players.emplace_back();
@@ -13,7 +14,8 @@ Game::Game(int playerCount){
 
 void Game::startHand(){
     this->gameState = GameState::Preflop;
-    this->activePlayers = playerCount;
+    this->activePlayers = this->playerCount;
+    this->dealerPos = (this->dealerPos + 1) % (this->playerCount);
     this->deck.shuffle();
     //brise pa deluje sve ruke
     this->table.clear();
@@ -31,12 +33,14 @@ void Game::startHand(){
 
 void Game::startBetting(){
     int curr_bet = (gameState == GameState::Preflop) ? this->bigBlind : 0;
-    bool raised = false;
+    bool raised = true;
+    bool firstRound = true;
+    /*
     for(Player& p: players){
         if(p.folded || p.allIn)continue;
 
 
-        if(activePlayers == 1){
+        if(this->activePlayers == 1){
             if(p.currentBet != curr_bet){
                 int bet = p.bet(curr_bet - p.currentBet);
             }
@@ -45,7 +49,7 @@ void Game::startBetting(){
         }
         int bet = p.bet(curr_bet - p.currentBet);
         if(p.folded || p.allIn){
-            activePlayers--;
+            this->activePlayers--;
             continue; //foldovao je player
         } 
         p.currentBet += bet;
@@ -54,16 +58,20 @@ void Game::startBetting(){
             raised = true;
         }
     }
-
+*/
     while(raised){
         raised = false;
+
+        //for(int i = (this->dealerPos + 2)%(this->playerCount); i !=)
+
+
         for(Player& p: players){
             if(p.folded || p.allIn)continue;
 
-            if(p.currentBet == curr_bet){
+            if((p.currentBet == curr_bet) && !firstRound){
                 break;
             }
-            if(activePlayers == 1){
+            if(this->activePlayers == 1){
                 if(p.currentBet != curr_bet){
                     int bet = p.bet(curr_bet - p.currentBet);
                 }
@@ -71,8 +79,9 @@ void Game::startBetting(){
                 return;
             }
             int bet = p.bet(curr_bet - p.currentBet);
+            
             if(p.folded || p.allIn){
-                activePlayers--;
+                this->activePlayers--;
                 continue; //foldovao je player
             }
             
@@ -82,6 +91,7 @@ void Game::startBetting(){
             }
 
         }
+        firstRound = false;
     }
 
     for(Player& p : players) p.currentBet = 0;
